@@ -1283,7 +1283,8 @@ moves_loop:  // When in check, search starts here
                           + (*contHist[1])[movedPiece][move.to_sq()];
 
         // Decrease/increase reduction for moves with a good/bad history
-        r -= ss->statScore * 445 / 4096;
+        int lg = std::max(1.0, log2(abs(ss->statScore) / 500.0));
+        r -= ss->statScore * 445 * lg * lg / 4096;
 
         // Scale up reductions for expected ALL nodes
         if (allNode)
